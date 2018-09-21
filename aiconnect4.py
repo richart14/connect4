@@ -5,7 +5,7 @@ import math
 import os
 import random
 import time
-# from minimax import Minimax
+# from minmax import minmax
 
 ROW_COUNT = 6
 COL_COUNT = 7
@@ -88,6 +88,25 @@ def draw_board(board):
         pygame.draw.circle(screen, YELLOW, (int(c*SQUARESIZE+SQUARESIZE/2), height - int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS)
   pygame.display.update()
 
+def minmax(board):
+
+  legal_moves = {}
+
+  for col in range(COL_COUNT):
+
+    boardCopy = np.copy(np.array(board))
+    row = get_next_open_row(boardCopy, col)
+        # animate_move(board, row, col, 2)
+    drop_piece(boardCopy, row, col, 2)
+    print_board(boardCopy)
+
+def search(depth, board):
+  pass
+
+
+  
+
+
 board = create_board()
 game_over = False
 turn = 0 
@@ -141,27 +160,36 @@ while not game_over:
             label = myfont.render('Player 1 wins', 1, RED)
             screen.blit(label, (40, 10))
             game_over = True
+      
+      minmax(board)
 
       # ask for player 2 input
-      else: 
-        posx = event.pos[0]
-        col = int(math.floor(posx/SQUARESIZE))
-        print(col)
+      # else: 
+      #   posx = event.pos[0]
+      #   col = int(math.floor(posx/SQUARESIZE))
+      #   print(col)
 
-        if is_valid_location(board, col):
-          row = get_next_open_row(board, col)
-          # animate_move(board, row, col, 2)
-          drop_piece(board, row, col, 2)
-          if winning_move(board, 2):
-            label = myfont.render('Player 2 wins', 1, YELLOW)
-            screen.blit(label, (40, 10))
-            game_over = True
+      #   if is_valid_location(board, col):
+      time.sleep(random.randrange(8,18,1)/10.0)
+      # this is where i can ad in logic
+      col = random.randint(0,6)
+      row = get_next_open_row(board, col)
+      # animate_move(board, row, col, 2)
+      drop_piece(board, row, col, 2)
+      if winning_move(board, 2):
+        label = myfont.render('Player 2 wins', 1, YELLOW)
+        screen.blit(label, (40, 10))
+        game_over = True
       
-
-      print_board(board)  
+      
+      # print_board(board)  
       draw_board(board)
-      turn +=1
-      turn = turn % 2
+      # turn +=1
+      # turn = turn % 2
+
+
 
       if game_over:
         pygame.time.wait(3000)
+
+
